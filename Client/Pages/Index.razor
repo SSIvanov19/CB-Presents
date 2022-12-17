@@ -1,0 +1,19 @@
+﻿@page "/"
+@using Microsoft.AspNetCore.Authorization
+
+<PageTitle>Index</PageTitle>
+
+<AuthorizeView>
+    <Authorized>
+        @foreach (var claim in context.User.Claims)
+        {
+            <div>
+                @claim.Type - @claim.Value
+            </div>
+            <br />
+        }
+    </Authorized>
+</AuthorizeView>
+
+<SurveyPrompt Title="How is Blazor working for you?" />
+
