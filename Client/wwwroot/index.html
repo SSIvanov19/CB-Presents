@@ -3,13 +3,21 @@
 
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#133D28" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style"
+          content="black-translucent" />
     <title>CBPresents</title>
     <base href="/" />
-    <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <!--<link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />-->
     <link href="css/app.css" rel="stylesheet" />
+    <link href="css/output.css" rel="stylesheet" />
     <link rel="icon" type="image/png" href="favicon.png" />
     <link href="CBPresents.Client.styles.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@700&family=Lexend:wght@700;800&family=Montserrat:wght@800&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -28,6 +36,55 @@
     </div>
     <script src="_content/Microsoft.Authentication.WebAssembly.Msal/AuthenticationService.js"></script>
     <script src="_framework/blazor.webassembly.js"></script>
+    <script defer>
+        function animateButton() {
+            const button = document.getElementsByClassName("bubbly-button")[0];
+
+            //reset animation
+            button.classList.remove('animate');
+
+            button.classList.add('animate');
+            setTimeout(() => {
+                button.classList.remove('animate');
+            }, 700);
+        }
+
+        function setTimer() {
+            const second = 1000,
+                minute = second * 60,
+                hour = minute * 60,
+                day = hour * 24;
+
+            //I'm adding this section so I don't have to keep updating this pen every year :-)
+            //remove this if you don't need it
+            let today = new Date(),
+                dd = String(today.getDate()).padStart(2, "0"),
+                mm = String(today.getMonth() + 1).padStart(2, "0"),
+                yyyy = today.getFullYear();
+
+            today = mm + "/" + dd + "/" + yyyy;
+
+            //end
+
+            const countDown = new Date('2022-12-18T11:00:00.000Z').getTime(),
+                x = setInterval(() => {
+
+                    const now = new Date().getTime(),
+                        distance = countDown - now;
+
+                    document.getElementById("days").innerText = Math.floor(distance / (day)),
+                        document.getElementById("hours").innerText = Math.floor((distance % (day)) / (hour)),
+                        document.getElementById("minutes").innerText = Math.floor((distance % (hour)) / (minute)),
+                        document.getElementById("seconds").innerText = Math.floor((distance % (minute)) / second);
+
+                    //do something later when date is reached
+                    if (distance < 0) {
+                        clearInterval(x);
+                    }
+                    //seconds
+                }, 0)
+        }
+    </script>
 </body>
 
 </html>

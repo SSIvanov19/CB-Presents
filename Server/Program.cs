@@ -1,7 +1,6 @@
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Identity.Web;
+using Tailwind;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +23,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseWebAssemblyDebugging();
+    app.RunTailwind("tailwind", "../Client/");
 }
 else
 {

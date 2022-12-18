@@ -1,18 +1,20 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+<!--<div class="relative">
+    <img src="images/JingleBell.png" class="absolute scale-[0.4] z-1 rotate-[43deg] top-[-403px] right-[-608px]" />
+</div>-->
 
-    <main>
-        <div class="top-row px-4 auth">
-            <LoginDisplay />
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-        </div>
-
-        <article class="content px-4">
+<div class="w-screen h-screen bg-main overflow-hidden">
+    <!--<img src="images/ChristmasSock.png" class="absolute scale-[0.3] z-1 rotate-[-12.59deg] bottom-[-380px] left-[-634.45px]" />-->
+    <div class="flex justify-center relative z-0">
+        <svg id="visual" viewBox="0 0 540 960" class="h-screen absolute" xmlns="http://www.w3.org/2000/svg"
+             xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
+            <rect x="0" y="0" width="540" height="960" fill="#133D28"></rect>
+            <path d="M302 0L291.5 32C281 64 260 128 258.2 192C256.3 256 273.7 320 269.3 384C265 448 239 512 234.8 576C230.7 640 248.3 704 256 768C263.7 832 261.3 896 260.2 928L259 960L0 960L0 928C0 896 0 832 0 768C0 704 0 640 0 576C0 512 0 448 0 384C0 320 0 256 0 192C0 128 0 64 0 32L0 0Z"
+                  fill="#15422C" stroke-linecap="round" stroke-linejoin="miter"></path>
+        </svg>
+        <div class="z-1 relative h-full w-full">
             @Body
-        </article>
-    </main>
+        </div>
+    </div>
 </div>

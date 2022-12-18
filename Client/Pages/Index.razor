@@ -1,19 +1,65 @@
 ﻿@page "/"
 @using Microsoft.AspNetCore.Authorization
 
+@inject IJSRuntime jsRuntime
+@inject NavigationManager Navigation
+
 <PageTitle>Index</PageTitle>
 
-<AuthorizeView>
-    <Authorized>
-        @foreach (var claim in context.User.Claims)
-        {
-            <div>
-                @claim.Type - @claim.Value
+<div>
+    <AuthorizeView>
+        <Authorized>
+            <h1 class="absolute inset-12 text-white text-6xl font-montserrat">Giving presents<br />away in:</h1>
+            <div class="h-screen w-screen flex justify-center items-center">
+                <div id="countdown">
+                    <ul>
+                        <li class="inline-block list-none text-2xl text-white m-3 text-center"><span class="block text-8xl text-center bg-[#0B291B] w-36 h-32 flex justify-center items-center rounded-2xl"><div id="days"></div></span><p class="mt-10 text-[#B5E3CD]">Days</p></li>
+                        <li class="inline-block list-none text-2xl text-white m-3 text-center"><span class="block text-8xl text-center bg-[#0B291B] w-36 h-32 flex justify-center items-center rounded-2xl"><div id="hours"></div></span><p class="mt-10 text-[#B5E3CD]">Hours</p></li>
+                        <li class="inline-block list-none text-2xl text-white m-3 text-center"><span class="block text-8xl text-center bg-[#0B291B] w-36 h-32 flex justify-center items-center rounded-2xl"><div id="minutes"></div></span><p class="mt-10 text-[#B5E3CD]">Minutes</p></li>
+                        <li class="inline-block list-none text-2xl text-white m-3 text-center"><span class="block text-8xl text-center bg-[#0B291B] w-36 h-32 flex justify-center items-center rounded-2xl"><div id="seconds"></div></span><p class="mt-10 text-[#B5E3CD]">Seconds</p></li>
+                    </ul>
+                </div>
             </div>
-            <br />
-        }
-    </Authorized>
-</AuthorizeView>
+            <!--
+            
+            @foreach (var claim in context.User.Claims)
+            {
+                <div>
+                @claim.Type - @claim.Value
+                </div>
+                <br />
+            }
+            -->
+        </Authorized>
+        <NotAuthorized>
+            <div class="h-screen w-screen flex justify-center items-center">
+                <div>
+                    <h1 class="text-white font-lexend text-6xl lg:text-8xl text-center max-w-xl">
+                        VSCPI’s Christmas lottery
+                    </h1>
+                    <div class="flex justify-center items-center">
+                        <div @onclick="Login" class="bg-black bubbly-button justify-self-center mt-36 rounded-[29px] shadow-button bg-button transition ease-in-out delay-150 hover:-translate-1 hover:scale-110 duration-250 cursor-pointer">
+                            <p class="text-white font-lato text-4xl p-3 pr-5 pl-5 lg:p-10 lg:pl-20 lg:pr-20 text-center">Enter the lottery</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </NotAuthorized>
+    </AuthorizeView>
+</div>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
 
+<!--<SurveyPrompt Title="How is Blazor working for you?" />-->
+@code {
+    protected override async void OnInitialized()
+    {
+        await jsRuntime.InvokeVoidAsync("setTimer");
+    }
+    
+    private async void Login()
+    {
+        await jsRuntime.InvokeVoidAsync("animateButton");
+        await Task.Delay(500);
+        Navigation.NavigateTo("authentication/login");
+    }
+}
