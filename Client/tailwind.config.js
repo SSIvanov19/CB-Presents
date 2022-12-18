@@ -10,7 +10,8 @@ module.exports = {
             fontFamily: {
                 'lexend': ['Lexend', 'sans-serif'],
                 'lato': ['Lato', 'sans-serif'],
-                'montserrat': ['Montserrat', 'sans-serif']
+                'montserrat': ['Montserrat', 'sans-serif'],
+                'poppins': ['Poppins', 'sans-serif']
             },
             boxShadow: {
                 'button': '0px 0px 21px 6px rgba(199, 38, 27, 0.17);'

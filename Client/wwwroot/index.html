@@ -17,7 +17,7 @@
     <link href="CBPresents.Client.styles.css" rel="stylesheet" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@700&family=Lexend:wght@700;800&family=Montserrat:wght@800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@700&family=Lexend:wght@700;800&family=Montserrat:wght@800&family=Poppins:wght@500&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -66,16 +66,26 @@
 
             //end
 
-            const countDown = new Date('2022-12-18T15:00:00.000Z').getTime(),
+            const countDown = new Date('2022-12-23T09:45:00.000Z').getTime(),
                 x = setInterval(() => {
 
                     const now = new Date().getTime(),
                         distance = countDown - now;
 
-                    document.getElementById("days").innerText = Math.floor(distance / (day)),
-                        document.getElementById("hours").innerText = Math.floor((distance % (day)) / (hour)),
-                        document.getElementById("minutes").innerText = Math.floor((distance % (hour)) / (minute)),
-                        document.getElementById("seconds").innerText = Math.floor((distance % (minute)) / second);
+                    const daysLabel = document.getElementById("days");
+                    const hoursLabel = document.getElementById("hours");
+                    const minutesLabel = document.getElementById("minutes");
+                    const secondsLabel = document.getElementById("seconds");
+
+                    if (!daysLabel) {
+                        clearInterval(x);
+                        return;
+                    }
+
+                    daysLabel.innerText = Math.floor(distance / (day)),
+                        hoursLabel.innerText = Math.floor((distance % (day)) / (hour)),
+                        minutesLabel.innerText = Math.floor((distance % (hour)) / (minute)),
+                        secondsLabel.innerText = Math.floor((distance % (minute)) / second);
 
                     //do something later when date is reached
                     if (distance < 0) {
