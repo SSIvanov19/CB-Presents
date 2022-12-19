@@ -1,37 +1,55 @@
 ﻿@inherits LayoutComponentBase
+<CascadingValue Value="this">
+    <div class="relative z-1">
+        @switch (Page) {
+            case "Home":
+                <img src="images/ChristmasSock.png" class="fixed z-1 scale-[0.3] bottom-[348px] lg:bottom-0 left-[-38px] lg:left-[-143px] origin-bottom-left" style="z-index: 1" alt="Christmas sock" />
+                <img src="images/JingleBell.png" class="fixed z-1 scale-[0.25] lg:scale-75 top-0 right-0 origin-top-right" style="z-index: 1" alt="Christmas sock" />
+            break;
+            case "Timer":
+                <img src="images/Tree Christmas.png" class="fixed z-1 scale-75 lg:scale-[1] bottom-0 left-0 origin-bottom-left" style="z-index: 1" alt="Christmas tree" />
+                <img src="images/SantaClaus.png" class="fixed z-1 scale-75 lg:scale-[1] top-0 right-0 origin-top-right" style="z-index: 1" alt="Santa Claus" />
+            break;
+            case "Winner":
+            case "Losser":
+                <img src="/images/ChristmasStar1.png" class="scale-[1.2] fixed z-1 origin-top-left top-0 left-[40px]" style="z-index: 1" alt="Image of a star"/>
+                <img src="/images/ChristmasStar2.png" class="scale-[1.2] fixed z-1 origin-top-right top-[60px] right-0" style="z-index: 1" alt="Image of a star" />
+                <img src="/images/ChristmasStar3.png" class="scale-[1.2] fixed z-1 origin-bottom-left bottom-[60px] left-0" style="z-index: 1" alt="Image of a star" />
+                <img src="/images/ChristmasStar4.png" class="scale-[1.2] fixed z-1 origin-bottom-left bottom-0 left-[140px]" style="z-index: 1" alt="Image of a star" />
+                <img src="/images/ChristmasStar5.png" class="scale-[1.2] fixed z-1 origin-bottom-right bottom-[100px] right-0" style="z-index: 1" alt="Image of a star" />
+                <img src="/images/ChristmasStar6.png" class="scale-[1.2] fixed z-1 origin-top-left top-[90px] left-[200px]" style="z-index: 1" alt="Image of a star" />
+            break;
+            default:
+                break;
+        }
+    </div>
 
-<div class="relative z-1">
-    <!--  
-    <img src="images/ChristmasSock.png" class="fixed z-1 scale-[0.3] bottom-[348px] lg:bottom-0 left-[-38px] lg:left-[-143px] origin-bottom-left" style="z-index: 1" alt="Christmas sock" />
-    <img src="images/JingleBell.png" class="fixed z-1 scale-[0.25] lg:scale-75 top-0 right-0 origin-top-right" style="z-index: 1" alt="Christmas sock" />
-    -->
-
-    <!--
-    <img src="images/Tree Christmas.png" class="fixed z-1 scale-75 lg:scale-[1] bottom-0 left-0 origin-bottom-left" style="z-index: 1" alt="Christmas tree" />
-    <img src="images/SantaClaus.png" class="fixed z-1 scale-75 lg:scale-[1] top-0 right-0 origin-top-right" style="z-index: 1" alt="Santa Claus" />
-    -->
-
-    <!--
-        
-    -->
-    <img src="/images/ChristmasStar1.png" class="scale-[1.2] fixed z-1 origin-top-left top-0 left-[40px]" style="z-index: 1" alt="Image of a star"/>
-    <img src="/images/ChristmasStar2.png" class="scale-[1.2] fixed z-1 origin-top-right top-[60px] right-0" style="z-index: 1" alt="Image of a star" />
-    <img src="/images/ChristmasStar3.png" class="scale-[1.2] fixed z-1 origin-bottom-left bottom-[60px] left-0" style="z-index: 1" alt="Image of a star" />
-    <img src="/images/ChristmasStar4.png" class="scale-[1.2] fixed z-1 origin-bottom-left bottom-0 left-[140px]" style="z-index: 1" alt="Image of a star" />
-    <img src="/images/ChristmasStar5.png" class="scale-[1.2] fixed z-1 origin-bottom-right bottom-[100px] right-0" style="z-index: 1" alt="Image of a star" />
-    <img src="/images/ChristmasStar6.png" class="scale-[1.2] fixed z-1 origin-top-left top-[90px] left-[200px]" style="z-index: 1" alt="Image of a star" />
-</div>
-
-<div class="w-screen h-screen bg-main overflow-hidden relative z-0">
-    <div class="flex justify-center relative z-0">
-        <svg id="visual" viewBox="0 0 540 960" class="h-screen absolute" xmlns="http://www.w3.org/2000/svg"
-             xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
-            <rect x="0" y="0" width="540" height="960" fill="#133D28"></rect>
-            <path d="M302 0L291.5 32C281 64 260 128 258.2 192C256.3 256 273.7 320 269.3 384C265 448 239 512 234.8 576C230.7 640 248.3 704 256 768C263.7 832 261.3 896 260.2 928L259 960L0 960L0 928C0 896 0 832 0 768C0 704 0 640 0 576C0 512 0 448 0 384C0 320 0 256 0 192C0 128 0 64 0 32L0 0Z"
-                  fill="#15422C" stroke-linecap="round" stroke-linejoin="miter"></path>
-        </svg>
-        <div class="z-1 relative h-full w-full">
-            @Body
+    <div class="w-screen h-screen bg-main overflow-hidden relative z-0">
+        <div class="flex justify-center relative z-0">
+            <svg id="visual" viewBox="0 0 540 960" class="h-screen absolute" xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
+                <rect x="0" y="0" width="540" height="960" fill="#133D28"></rect>
+                <path d="M302 0L291.5 32C281 64 260 128 258.2 192C256.3 256 273.7 320 269.3 384C265 448 239 512 234.8 576C230.7 640 248.3 704 256 768C263.7 832 261.3 896 260.2 928L259 960L0 960L0 928C0 896 0 832 0 768C0 704 0 640 0 576C0 512 0 448 0 384C0 320 0 256 0 192C0 128 0 64 0 32L0 0Z"
+                    fill="#15422C" stroke-linecap="round" stroke-linejoin="miter"></path>
+            </svg>
+            <div class="z-1 relative h-full w-full">
+                @Body
+            </div>
         </div>
     </div>
-</div>
+</CascadingValue>
+
+@code {
+    protected string? Page;
+
+    protected override void OnInitialized()
+    {
+        Console.WriteLine("OnInitializedMainLayout");
+    }
+
+    public void SetPage(string pageName)
+    {
+        Page = pageName;
+        StateHasChanged();
+    }
+}

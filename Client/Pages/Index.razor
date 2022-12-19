@@ -3,6 +3,7 @@
 
 @inject IJSRuntime jsRuntime
 @inject NavigationManager Navigation
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
 <PageTitle>Index</PageTitle>
 
@@ -10,7 +11,6 @@
     <AuthorizeView>
         <Authorized>
 
-            <!--
             <h1 class="absolute inset-6 lg:inset-12 text-white text-4xl lg:text-6xl font-montserrat">Giving presents<br />away in:</h1>
             <div class="h-screen w-screen flex justify-center items-center">
                 <div id="countdown">
@@ -23,6 +23,7 @@
                 </div>
             </div>
            
+            <!--
             <div class="h-screen w-screen flex justify-center items-center flex-col gap-3 lg:gap-4">
                 <img class="scale-100 lg:scale-125" src="/images/Letter.png" alt="Image of letter"/>
                 <h1 class="font-lexend font-bold text-white text-4xl lg:text-5xl">Congratulations!</h1>
@@ -31,12 +32,12 @@
             -->
             
             <!--
-            -->
             <div class="h-screen w-screen flex justify-center items-center flex-col gap-3 lg:gap-4">
                 <img class="scale-100 lg:scale-125" src="/images/Cooking.png" alt="Image of christmas sweet" />
                 <h1 class="font-lexend font-bold text-white text-4xl lg:text-5xl">Mission failed</h1>
                 <p class="font-poppins text-[#B5E3CD] text-xl lg:text-2xl max-w-sm lg:max-w-md text-center">We’ll get em next time...</p>
             </div>
+            -->
             <!--
             
             @foreach (var claim in context.User.Claims)
@@ -68,9 +69,28 @@
 
 <!--<SurveyPrompt Title="How is Blazor working for you?" />-->
 @code {
+    [CascadingParameter]
+    public MainLayout Layout { get; set; } 
+
     protected override async void OnInitialized()
-    {
+    { 
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        Console.WriteLine(user.Identity.IsAuthenticated);
+
+        if (!user.Identity.IsAuthenticated)
+        {
+            Layout.SetPage("Home");
+        }
+        else 
+        {
+            Layout.SetPage("Timer");
+        }
+
+        Console.WriteLine("OnInitializedIndex");
         await jsRuntime.InvokeVoidAsync("setTimer");
+        //StateHasChanged();
     }
     
     private async void Login()
