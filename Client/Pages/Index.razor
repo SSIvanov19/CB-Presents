@@ -1,9 +1,11 @@
 ﻿@page "/"
+@using CBPresents.Shared.Models;
 @using Microsoft.AspNetCore.Authorization
 
 @inject IJSRuntime jsRuntime
 @inject NavigationManager Navigation
 @inject AuthenticationStateProvider AuthenticationStateProvider
+@inject HttpClient Http
 
 <PageTitle>Index</PageTitle>
 
@@ -70,27 +72,27 @@
 <!--<SurveyPrompt Title="How is Blazor working for you?" />-->
 @code {
     [CascadingParameter]
-    public MainLayout Layout { get; set; } 
+    public MainLayout? Layout { get; set; } 
 
     protected override async void OnInitialized()
     { 
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
 
-        Console.WriteLine(user.Identity.IsAuthenticated);
-
-        if (!user.Identity.IsAuthenticated)
+        if (!user.Identity!.IsAuthenticated)
         {
-            Layout.SetPage("Home");
+            Layout!.SetPage("Home");
         }
         else 
         {
-            Layout.SetPage("Timer");
+            var response = await Http.PostAsync("api/lottery/participate", null);
+            var context = await response.Content.ReadFromJsonAsync<LotteryEntryVM>();
+
+            Layout!.SetPage("Timer");
+            await jsRuntime.InvokeVoidAsync("setTimer", context!.LotteryTime);
         }
 
         Console.WriteLine("OnInitializedIndex");
-        await jsRuntime.InvokeVoidAsync("setTimer");
-        //StateHasChanged();
     }
     
     private async void Login()

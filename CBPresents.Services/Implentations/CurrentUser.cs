@@ -13,14 +13,14 @@ internal class CurrentUser : ICurrentUser
             .HttpContext?
             .User
             .Claims
-            .FirstOrDefault(c => c.Type == ClaimConstants.PreferredUserName)?
+            .FirstOrDefault(c => c.Type == ClaimTypes.Email)?
             .Value!;
 
         this.Role = httpContextAccessor?
             .HttpContext?
             .User
             .Claims
-            .FirstOrDefault(c => c.Type == ClaimConstants.Roles)?
+            .FirstOrDefault(c => c.Type == ClaimTypes.Role)?
             .Value!;
     }
     public string UserEmail { get; }
