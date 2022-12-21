@@ -5,8 +5,10 @@ using CBPresents.Services;
 using CBPresents.Data.Data;
 using Microsoft.EntityFrameworkCore;
 using CBPresents.Server.Models;
-using AutoMapper;
+using Hangfire;
+using Hangfire.SqlServer;
 using CBPresents.Services.Contracts;
+using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -28,6 +30,21 @@ builder.Services.Configure<JwtBearerOptions>(
         options.TokenValidationParameters.NameClaimType = "name";
     });
 
+builder.Services.AddHangfire(conf => conf
+        .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+        .UseSimpleAssemblyNameTypeSerializer()
+        .UseRecommendedSerializerSettings()
+        .UseSqlServerStorage(configuration.GetConnectionString("DefaultConnection"), new SqlServerStorageOptions
+        {
+            CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
+            SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
+            QueuePollInterval = TimeSpan.Zero,
+            UseRecommendedIsolationLevel = true,
+            DisableGlobalLocks = true
+        }));
+
+builder.Services.AddHangfireServer();
+
 builder.Services.AddServices();
 
 builder.Services.AddControllersWithViews();
@@ -37,10 +54,14 @@ builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 var app = builder.Build();
 
-using var scoper = app.Services.CreateScope();
-var timeService = scoper.ServiceProvider.GetRequiredService<ITimeService>();
+using var scope = app.Services.CreateScope();
+var timeService = scope.ServiceProvider.GetRequiredService<ITimeService>();
+var numberOfWinnersService = scope.ServiceProvider.GetRequiredService<INumberOfWinnersService>();
+var jobsService = scope.ServiceProvider.GetRequiredService<IJobsService>();
 
-await timeService.SetTime("2022-12-23T09:45:00.000Z");
+await numberOfWinnersService.SetNumberOfWiinners(50);
+await timeService.SetTime("2022-12-22T18:17:00.000Z");
+await jobsService.ScheduleJob();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -59,9 +80,9 @@ app.UseHttpsRedirection();
 
 app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
+app.UseHangfireDashboard();
 
 app.UseRouting();
-
 app.UseAuthorization();
 
 

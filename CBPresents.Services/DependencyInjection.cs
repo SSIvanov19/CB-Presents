@@ -11,6 +11,8 @@ public static class DependencyInjection
         services
             .AddScoped<ICurrentUser, CurrentUser>()
             .AddScoped<ILotteryService, LotteryService>()
-            .AddScoped<ITimeService, TimeService>();
+            .AddScoped<ITimeService, TimeService>()
+            .AddScoped<INumberOfWinnersService, NumberOfWinnersService>()
+            .AddScoped<IJobsService, JobsService>();
     }
 }

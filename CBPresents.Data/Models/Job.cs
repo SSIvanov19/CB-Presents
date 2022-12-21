@@ -6,13 +6,9 @@ using System.Threading.Tasks;
 
 namespace CBPresents.Data.Models;
 
-public class LotteryEntry
+public class Job
 {
     public string? Id { get; set; }
-    
-    public string? Email { get; set; }
 
-    public string? Name { get; set; }
-    
-    public bool? IsWinner { get; set; }
+    public string? JobId { get; set; }
 }

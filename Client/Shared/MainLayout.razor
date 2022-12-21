@@ -1,4 +1,7 @@
-﻿@inherits LayoutComponentBase
+﻿@using Blazored.Toast.Configuration
+
+@inherits LayoutComponentBase
+
 <CascadingValue Value="this">
     <div class="relative z-1">
         @switch (Page) {
@@ -11,7 +14,7 @@
                 <img src="images/SantaClaus.png" class="fixed z-1 scale-75 lg:scale-[1] top-0 right-0 origin-top-right" style="z-index: 1" alt="Santa Claus" />
             break;
             case "Winner":
-            case "Losser":
+            case "Loser":
                 <img src="/images/ChristmasStar1.png" class="scale-[1.2] fixed z-1 origin-top-left top-0 left-[40px]" style="z-index: 1" alt="Image of a star"/>
                 <img src="/images/ChristmasStar2.png" class="scale-[1.2] fixed z-1 origin-top-right top-[60px] right-0" style="z-index: 1" alt="Image of a star" />
                 <img src="/images/ChristmasStar3.png" class="scale-[1.2] fixed z-1 origin-bottom-left bottom-[60px] left-0" style="z-index: 1" alt="Image of a star" />
@@ -24,6 +27,16 @@
         }
     </div>
 
+
+    <BlazoredToasts Position="ToastPosition.BottomRight"
+                    Timeout="10"
+                    IconType="IconType.FontAwesome"
+                    SuccessClass="success-toast-override"
+                    SuccessIcon="fa fa-thumbs-up"
+                    ErrorIcon="fa fa-bug"
+                    ShowProgressBar="true" 
+                    RemoveToastsOnNavigation="true"/>
+                    
     <div class="w-screen h-screen bg-main overflow-hidden relative z-0">
         <div class="flex justify-center relative z-0">
             <svg id="visual" viewBox="0 0 540 960" class="h-screen absolute" xmlns="http://www.w3.org/2000/svg"

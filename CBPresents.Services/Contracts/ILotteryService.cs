@@ -6,5 +6,9 @@ namespace CBPresents.Services.Contracts;
 
 public interface ILotteryService
 {
-    Task<LotteryEntryVM> Participate(string userEmail);
+    Task<LotteryEntryVM> Participate(string userEmail, string name);
+
+    Task<LotteryEntryVM> CheckIfWinner(string userEmail);
+
+    Task PickWinners(int numberOfWinners);
 }

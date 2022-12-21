@@ -18,6 +18,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@700&family=Lexend:wght@700;800&family=Montserrat:wght@800&family=Poppins:wght@500&display=swap" rel="stylesheet">
+    <link href="_content/Blazored.Toast/blazored-toast.min.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -90,6 +91,7 @@
                     //do something later when date is reached
                     if (distance < 0) {
                         clearInterval(x);
+                        document.location.reload()
                     }
                     //seconds
                 }, 0)

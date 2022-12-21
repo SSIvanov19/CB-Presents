@@ -10,7 +10,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CBPresents.Shared", "Shared
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CBPresents.Services", "CBPresents.Services\CBPresents.Services.csproj", "{B1986FAB-2166-4970-B9EC-F27F01653ABE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CBPresents.Data", "CBPresents.Data\CBPresents.Data.csproj", "{92AA2AEE-9077-4733-B81A-23AA29B42DDD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CBPresents.Data", "CBPresents.Data\CBPresents.Data.csproj", "{92AA2AEE-9077-4733-B81A-23AA29B42DDD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -23,6 +23,21 @@ public class TimeService : ITimeService
         return (await this.context.LotteryTimes.FirstOrDefaultAsync())!.Time;
     }
 
+    public async Task SetExplicitTime(DateTime time)
+    {
+        this.context.LotteryTimes.RemoveRange(this.context.LotteryTimes);
+
+        this.context.LotteryTimes.Add(new()
+        {
+            Id = Guid.NewGuid().ToString(),
+            Time = time
+        });
+
+        await this.context.SaveChangesAsync();
+
+        return;
+    }
+
     public async Task SetTime(string time)
     {
         var lotteryTime = await this.context.LotteryTimes.FirstOrDefaultAsync();
