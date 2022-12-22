@@ -2,93 +2,101 @@
 @using CBPresents.Shared.Models;
 @using Microsoft.AspNetCore.Authorization;
 @using Microsoft.AspNetCore.Components.QuickGrid
+
 @attribute [Authorize(Roles = "Admin")]
 
-<h1>Admin Panel</h1>
+@inject HttpClient Http
 
-<label for="createdDate" class="col-sm-3">Lottery Time:</label>
-<InputDateTime id="createdDate" class="form-control text-black" @bind-Value="this.CreatedDate"></InputDateTime>
-<button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Save New Time</button>
-    
-<br /><br />
-<label for="numberOfWiners" class="col-sm-3">Number of Winers:</label>
-<InputNumber id="numberOfWiners" class="form-control text-black" @bind-Value="this.NumberOfWiners"></InputNumber>
-<button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Save New Number</button>
+@if (IsLoading)
+{
+    <div class="h-screen w-screen flex justify-center items-center flex-col gap-3 lg:gap-4">
+        <h1 class="font-lexend font-bold text-white text-4xl lg:text-5xl">Loading...</h1>
+    </div>
+}
+else
+{
+    <h1>Admin Panel</h1>
 
-<br /><br />
+    <label for="createdDate" class="col-sm-3">Lottery Time:</label>
+    <InputDate id="createdDate" class="form-control text-black" Type="InputDateType.DateTimeLocal" @bind-Value="@CreatedDate" />
+    <button @onclick="UpdateTime" type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Save New Time</button>
 
-<button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Pick Winners now</button>
+    <br />
+    <br />
 
-<QuickGrid Items="@users">
-    <PropertyColumn Property="@(u => u.Name)" Sortable="true" />
-    <PropertyColumn Property="@(u => u.Email)" Sortable="true" />
-    <PropertyColumn Property="@(u => u.IsWinner)" Sortable="true" />
-</QuickGrid>
+    <label for="numberOfWiners" class="col-sm-3">Number of Winers:</label>
+    <InputNumber id="numberOfWiners" class="form-control text-black" @bind-Value="this.NumberOfWiners"></InputNumber>
+    <button @onclick="UpdateNumberOfWinners" type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Save New Number</button>
+
+    <br />
+    <br />
+
+    <button @onclick="PickWinners" type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Pick Winners now</button>
+
+    <br />
+    <br />
+
+    <QuickGrid Items="@FilteredItems" ResizableColumns="true">
+        <PropertyColumn Property="@(u => u.Name)" Sortable="true" Class="user-name">
+            <ColumnOptions>
+                <div class="search-box">
+                    <input class="text-black" type="search" autofocus @bind="nameFilter" @bind:event="oninput" placeholder="User name ..." />
+                </div>
+            </ColumnOptions>
+        </PropertyColumn>
+        <PropertyColumn Property="@(u => u.Email)" Sortable="true" Class="user-name">
+            <ColumnOptions>
+                <div class="search-box">
+                    <input class="text-black" type="search" autofocus @bind="emalFilter" @bind:event="oninput" placeholder="User email ..." />
+                </div>
+            </ColumnOptions>
+        </PropertyColumn>
+        <PropertyColumn Property="@(u => u.IsWinner)" Sortable="true" />
+    </QuickGrid>
+}
+
+
 
 @code {
-    //record User(string Name, string Email, bool IsWinner);
-
     public DateTime CreatedDate { get; set; }
     public int NumberOfWiners { get; set; }
 
-    public IQueryable<User> users { get; set; }
+    public List<User>? Users { get; set; }
 
-    protected override void OnInitialized()
+    private string nameFilter = string.Empty;
+    private string emalFilter = string.Empty;
+
+    public bool IsLoading = true;
+
+
+    IQueryable<User> FilteredItems => Users?.Where(
+        u => u.Name.Contains(
+            nameFilter, StringComparison.CurrentCultureIgnoreCase) && u.Email.Contains(emalFilter, StringComparison.CurrentCultureIgnoreCase)
+    ).AsQueryable()!;
+
+    protected override async void OnInitialized()
     {
-        this.CreatedDate = DateTime.Now;
-        this.NumberOfWiners = 50;
+        this.CreatedDate = await Http.GetFromJsonAsync<DateTime>("api/admin/getTime");
+        this.NumberOfWiners = await Http.GetFromJsonAsync<int>("api/admin/getNumberOfWinners"); ;
 
-        users = new[]
-        {
-            new User() 
-            {
-                Email = "SSIvanov19@codingburgas.bg",
-                Name = "Стоян Стоянов Иванов",
-                IsWinner = false 
-            },
-            new User() 
-            {
-                Email = "ASIvanov22@codingburgas.bg",
-                Name = "Александър Стяонов Иванов",
-                IsWinner = true 
-            },
-            new User() 
-            {
-                Email = "SSIvanov19@codingburgas.bg",
-                Name = "Stoyan Ivanov",
-                IsWinner = false 
-            },
-            new User() 
-            {
-                Email = "SSIvanov19@codingburgas.bg",
-                Name = "Stoyan Ivanov",
-                IsWinner = false 
-            },
-            new User() 
-            {
-                Email = "SSIvanov19@codingburgas.bg",
-                Name = "Stoyan Ivanov",
-                IsWinner = false 
-            },
-            new User() 
-            {
-                Email = "SSIvanov19@codingburgas.bg",
-                Name = "Stoyan Ivanov",
-                IsWinner = false 
-            },
-            new User() 
-            {
-                Email = "SSIvanov19@codingburgas.bg",
-                Name = "Stoyan Ivanov",
-                IsWinner = false 
-            },
-            new User() 
-            {
-                Email = "SSIvanov19@codingburgas.bg",
-                Name = "Stoyan Ivanov",
-                IsWinner = false 
-            },
-            
-    }.AsQueryable();
+        var getUserResoponse = await Http.GetFromJsonAsync<List<User>>("api/admin/users");
+        Users = getUserResoponse!;
+        IsLoading = false;
+        StateHasChanged();
+    }
+
+    private async void UpdateTime()
+    {
+        await Http.PostAsJsonAsync("api/admin/updateTime", CreatedDate);
+    }
+
+    private async void UpdateNumberOfWinners()
+    {
+        await Http.PostAsJsonAsync("api/admin/updateNumberOfWinners", NumberOfWiners);
+    }
+
+    private async void PickWinners()
+    {
+        await Http.PostAsync("api/admin/pickthewinners", null);
     }
 }

@@ -60,7 +60,7 @@ var numberOfWinnersService = scope.ServiceProvider.GetRequiredService<INumberOfW
 var jobsService = scope.ServiceProvider.GetRequiredService<IJobsService>();
 
 await numberOfWinnersService.SetNumberOfWiinners(50);
-await timeService.SetTime("2022-12-22T18:17:00.000Z");
+await timeService.SetTime("2022-12-23T11:45:00.000Z");
 await jobsService.ScheduleJob();
 
 // Configure the HTTP request pipeline.

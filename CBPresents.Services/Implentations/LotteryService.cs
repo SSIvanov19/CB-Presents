@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using CBPresents.Data.Data;
 using CBPresents.Data.Models;
 using CBPresents.Services.Contracts;
@@ -20,7 +21,9 @@ public class LotteryService : ILotteryService
 
     public async Task<LotteryEntryVM> CheckIfWinner(string userEmail)
     {
-        var user = await this.context.LotteryEntries.FirstOrDefaultAsync(e => e.Email == userEmail);
+        var user = await this.context
+            .LotteryEntries
+            .FirstOrDefaultAsync(e => e.Email == userEmail);
 
         return new LotteryEntryVM()
         {
@@ -28,9 +31,19 @@ public class LotteryService : ILotteryService
         };
     }
 
+    public async Task<List<User>> GetParticipingUsers()
+    {
+        return await this.context
+            .LotteryEntries
+            .ProjectTo<User>(this.mapper.ConfigurationProvider)
+            .ToListAsync();
+    }
+
     public async Task<LotteryEntryVM> Participate(string userEmail, string name)
     {
-        var user = this.context.LotteryEntries.FirstOrDefault(e => e.Email == userEmail);
+        var user = this.context
+            .LotteryEntries
+            .FirstOrDefault(e => e.Email == userEmail);
 
         if (user != null)
         {
@@ -59,7 +72,9 @@ public class LotteryService : ILotteryService
     {
         // Pick random winners
 
-        var lotteryEntries = await this.context.LotteryEntries.ToListAsync();
+        var lotteryEntries = await this.context
+            .LotteryEntries
+            .ToListAsync();
 
         var winners = new List<LotteryEntry>();
 

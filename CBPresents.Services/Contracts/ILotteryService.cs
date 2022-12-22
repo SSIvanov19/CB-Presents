@@ -11,4 +11,6 @@ public interface ILotteryService
     Task<LotteryEntryVM> CheckIfWinner(string userEmail);
 
     Task PickWinners(int numberOfWinners);
+
+    Task<List<User>> GetParticipingUsers();
 }

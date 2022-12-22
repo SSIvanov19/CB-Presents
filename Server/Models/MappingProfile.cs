@@ -9,6 +9,7 @@ namespace CBPresents.Server.Models
         public MappingProfile()
         {
             this.CreateMap<LotteryEntry, LotteryEntryVM>();
+            this.CreateMap<LotteryEntry, User>();
         }
     }
 }

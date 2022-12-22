@@ -4,5 +4,5 @@ public interface IJobsService
 {
     Task ScheduleJob();
 
-    //Task RemoveJob();
+    Task RemoveJob();
 }

@@ -18,5 +18,9 @@
   <ItemGroup>
     <ProjectReference Include="..\Shared\CBPresents.Shared.csproj" />
   </ItemGroup>
+	
+   <ItemGroup>
+    <TrimmerRootAssembly Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" />
+   </ItemGroup>
 
 </Project>

@@ -57,4 +57,15 @@ public class JobsService : IJobsService
         var numberOfWinners = await this.numberOfWinnersService.GetNumberOfWinners();
         await lotteryService.PickWinners(numberOfWinners ?? 50);
     }
+
+    public async Task RemoveJob()
+    {
+        var job = await context.Jobs.FirstOrDefaultAsync();
+
+        if (job != null)
+        {
+            jobClient.Delete(job.JobId);
+            this.context.Jobs.RemoveRange(this.context.Jobs);
+        }
+    }
 }
