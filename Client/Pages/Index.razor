@@ -113,7 +113,7 @@
             var context = await response.Content.ReadFromJsonAsync<LotteryEntryVM>();
             
             
-            if (context!.LotteryTime < DateTime.Now)
+            if (context!.LotteryTime < DateTime.UtcNow)
             {
                 if (context.IsWinner ?? false)
                 {
@@ -141,7 +141,7 @@
 
             Layout!.SetPage("Timer");
             Page = "Timer";
-            await jsRuntime.InvokeVoidAsync("setTimer", context!.LotteryTime);
+            await jsRuntime.InvokeVoidAsync("setTimer", context!.LotteryTime.ToLocalTime());
             StateHasChanged();
         }
         else 

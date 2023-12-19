@@ -39,7 +39,7 @@ public class JobsService : IJobsService
 
         var time = await this.timeService.GetTime() ?? default;
 
-        var timespan = time - DateTime.Now;
+        var timespan = time - DateTime.UtcNow;
 
         var newJobId = jobClient.Schedule(() => PickWinners(), timespan);
 

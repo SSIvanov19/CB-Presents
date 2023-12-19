@@ -34,7 +34,7 @@ namespace CBPresents.Server.Controllers
             // Check if lottery is expired            
             var lotteryTime = await this.timeService.GetTime();
 
-            if (lotteryTime < DateTime.Now)
+            if (lotteryTime < DateTime.UtcNow)
             {
                 // check for winners
                 var winnerResponse = await lotteryService.CheckIfWinner(userEmail);
@@ -81,7 +81,7 @@ namespace CBPresents.Server.Controllers
 
             await lotteryService.PickWinners(numberOfWinners ?? 50);
 
-            await timeService.SetExplicitTime(DateTime.Now);
+            await timeService.SetExplicitTime(DateTime.UtcNow);
 
             return this.Ok();
         }

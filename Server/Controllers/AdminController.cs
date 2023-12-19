@@ -70,7 +70,7 @@ namespace CBPresents.Server.Controllers
 
             await lotteryService.PickWinners(numberOfWinners ?? 50);
 
-            await timeService.SetExplicitTime(DateTime.Now);
+            await timeService.SetExplicitTime(DateTime.UtcNow);
 
             await jobsService.RemoveJob();
 

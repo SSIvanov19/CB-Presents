@@ -85,20 +85,20 @@ else
 
     protected override async void OnInitialized()
     {
-        this.CreatedDate = await Http.GetFromJsonAsync<DateTime>("api/admin/getTime");
+        this.CreatedDate = (await Http.GetFromJsonAsync<DateTime>("api/admin/getTime")).ToLocalTime();
         this.NumberOfWiners = await Http.GetFromJsonAsync<int>("api/admin/getNumberOfWinners"); ;
         var getUserResoponse = await Http.GetFromJsonAsync<List<User>>("api/admin/users");
         Users = getUserResoponse!;
         this.NumberOfParticipants = getUserResoponse!.Count;
         this.NumberOfRealWiners = getUserResoponse!.Where(u => u.IsWinner).ToList().Count;
-        
+
         IsLoading = false;
         StateHasChanged();
     }
 
     private async void UpdateTime()
     {
-        await Http.PostAsJsonAsync("api/admin/updateTime", CreatedDate);
+        await Http.PostAsJsonAsync("api/admin/updateTime", CreatedDate.ToUniversalTime());
     }
 
     private async void UpdateNumberOfWinners()

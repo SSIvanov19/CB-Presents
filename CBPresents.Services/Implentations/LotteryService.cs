@@ -71,23 +71,25 @@ public class LotteryService : ILotteryService
 
     public async Task PickWinners(int numberOfWinners)
     {
-        // Pick random winners
-
         var lotteryEntries = await this.context
             .LotteryEntries
             .ToListAsync();
 
         var winners = new List<LotteryEntry>();
+        var selectedWinnerIds = new HashSet<string>();
 
-        for (int i = 0; i < numberOfWinners; i++)
+        var random = new Random();
+
+        while (winners.Count < numberOfWinners)
         {
-            var random = new Random();
             var winner = lotteryEntries[random.Next(0, lotteryEntries.Count)];
 
-            winners.Add(winner);
+            if (!selectedWinnerIds.Contains(winner.Id!))
+            {
+                winners.Add(winner);
+                selectedWinnerIds.Add(winner.Id!);
+            }
         }
-
-        // Update the database
 
         foreach (var winner in winners)
         {

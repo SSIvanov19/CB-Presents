@@ -59,7 +59,8 @@ var numberOfWinnersService = scope.ServiceProvider.GetRequiredService<INumberOfW
 var jobsService = scope.ServiceProvider.GetRequiredService<IJobsService>();
 
 await numberOfWinnersService.SetNumberOfWiinners(50);
-await timeService.SetTime("2022-12-23T11:45:00.000Z");
+// This is UTC Time !!!
+await timeService.SetTime("2023-12-22T11:45:00.000");
 await jobsService.ScheduleJob();
 
 // Configure the HTTP request pipeline.
