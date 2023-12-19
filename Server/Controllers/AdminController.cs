@@ -76,5 +76,13 @@ namespace CBPresents.Server.Controllers
 
             return this.Ok();
         }
+
+        [HttpPost("resetwinners")]
+        public async Task<IActionResult> ResetWinners()
+        {
+            await this.lotteryService.ResetWinners();
+
+            return this.Ok();
+        }
     }
 }

@@ -6,6 +6,7 @@ using CBPresents.Services.Contracts;
 using CBPresents.Shared.Models;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace CBPresents.Services.Implentations;
 
 public class LotteryService : ILotteryService
@@ -96,6 +97,18 @@ public class LotteryService : ILotteryService
         this.context.LotteryEntries.UpdateRange(winners);
 
         await this.context.SaveChangesAsync();
+
+        return;
+    }
+
+    public async Task ResetWinners()
+    {
+        foreach (var lotteryEntry in context.LotteryEntries)
+        {
+            lotteryEntry.IsWinner = false;
+        }
+
+        await context.SaveChangesAsync();
 
         return;
     }

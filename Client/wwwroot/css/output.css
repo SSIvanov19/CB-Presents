@@ -592,8 +592,8 @@ video {
   z-index: 0;
 }
 
-.m-2 {
-  margin: 0.5rem;
+.m-1 {
+  margin: 0.25rem;
 }
 
 .mt-5 {
@@ -700,6 +700,12 @@ video {
 
 .cursor-pointer {
   cursor: pointer;
+}
+
+.select-none {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
 }
 
 .list-none {

@@ -13,4 +13,6 @@ public interface ILotteryService
     Task PickWinners(int numberOfWinners);
 
     Task<List<User>> GetParticipingUsers();
+
+    Task ResetWinners();
 }

@@ -32,10 +32,17 @@ else
     <br />
 
     <button @onclick="PickWinners" type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Pick Winners now</button>
-
+    
     <br />
     <br />
 
+    <button @onclick="ResetWinners" type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Reset Winners now</button>
+    
+    <br />
+    <br />
+
+    <p>Number of participants: @NumberOfParticipants</p>
+    <p>Number of winners: @NumberOfRealWiners</p>
     <QuickGrid Items="@FilteredItems" ResizableColumns="true">
         <PropertyColumn Property="@(u => u.Name)" Sortable="true" Class="user-name">
             <ColumnOptions>
@@ -60,6 +67,8 @@ else
 @code {
     public DateTime CreatedDate { get; set; }
     public int NumberOfWiners { get; set; }
+    public int NumberOfRealWiners { get; set; }
+    public int NumberOfParticipants { get; set; }
 
     public List<User>? Users { get; set; }
 
@@ -78,9 +87,11 @@ else
     {
         this.CreatedDate = await Http.GetFromJsonAsync<DateTime>("api/admin/getTime");
         this.NumberOfWiners = await Http.GetFromJsonAsync<int>("api/admin/getNumberOfWinners"); ;
-
         var getUserResoponse = await Http.GetFromJsonAsync<List<User>>("api/admin/users");
         Users = getUserResoponse!;
+        this.NumberOfParticipants = getUserResoponse!.Count;
+        this.NumberOfRealWiners = getUserResoponse!.Where(u => u.IsWinner).ToList().Count;
+        
         IsLoading = false;
         StateHasChanged();
     }
@@ -98,5 +109,10 @@ else
     private async void PickWinners()
     {
         await Http.PostAsync("api/admin/pickthewinners", null);
+    }
+
+    private async void ResetWinners()
+    {
+        await Http.PostAsync("api/admin/resetwinners", null);
     }
 }

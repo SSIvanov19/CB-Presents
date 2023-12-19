@@ -8,7 +8,6 @@ using CBPresents.Server.Models;
 using Hangfire;
 using Hangfire.SqlServer;
 using CBPresents.Services.Contracts;
-using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
