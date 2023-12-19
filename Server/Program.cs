@@ -8,6 +8,8 @@ using CBPresents.Server.Models;
 using Hangfire;
 using Hangfire.SqlServer;
 using CBPresents.Services.Contracts;
+using HangfireBasicAuthenticationFilter;
+using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -80,7 +82,19 @@ app.UseHttpsRedirection();
 
 app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
-app.UseHangfireDashboard();
+app.UseHangfireDashboard("/hangfire", new DashboardOptions
+{
+    AppPath = "/",
+    DashboardTitle = "CB-Presents",
+    Authorization = new[]
+    {
+        new HangfireCustomBasicAuthenticationFilter
+        {
+            User = configuration.GetSection("HangfireSettings:UserName").Value,
+            Pass = configuration.GetSection("HangfireSettings:Password").Value
+        }
+    }
+});
 
 app.UseRouting();
 app.UseAuthorization();
